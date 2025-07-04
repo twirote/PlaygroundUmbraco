@@ -32,12 +32,20 @@
                 <i class="fas fa-bars ms-1"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
+
+                @{
+	                var selection = Umbraco.ContentAtRoot().FirstOrDefault()
+                    .Children()
+                    .Where(x => x.IsVisible());
+                }
+
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+	                @foreach (var item in selection)
+	                {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@item.Url()">@item.Name()</a>
+		                </li>
+	                }
                 </ul>
             </div>
         </div>
