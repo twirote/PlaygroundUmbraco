@@ -37,31 +37,31 @@
 <section class="page-section">
     <div class="container">
         <div class="row justify-content-md-center">
-                    <div class="d-flex flex-row flex-nowrap overflow-auto gap-3">
-                        @{
-                            var imageGrid = Model.Value<BlockGridModel>("imageGrid");
-                        }
+            <div class="d-flex flex-row flex-nowrap overflow-auto gap-3">
+                @{
+                    var imageGrid = Model.Value<BlockGridModel>("imageGrid");
+                }
 
-                        @if (imageGrid != null)
+                @if (imageGrid != null)
+                {
+                    foreach (var block in imageGrid)
+                    {
+                        // ตรวจสอบว่า block เป็น cardImage
+                        if (block.Content.ContentType.Alias == "cardImage")
                         {
-                            foreach (var block in imageGrid)
-                            {
-                                // ตรวจสอบว่า block เป็น cardImage
-                                if (block.Content.ContentType.Alias == "cardImage")
-                                {
-                                    // ดึงรูปภาพจาก Media Picker ที่ field ชื่อ image
-                                    var image = block.Content.Value<IPublishedContent>("image");
+                            // ดึงรูปภาพจาก Media Picker ที่ field ชื่อ image
+                            var image = block.Content.Value<IPublishedContent>("image");
 
-                                    if (image != null)
-                                    {
-                                        <div class="card">
-                                        <img src="@image.Url()" class="img-thumbnail rounded float-start" alt="@image.Name" style="height: 200px; width: 300px;"/>
-                                        </div>
-                                    }
-                                }
+                            if (image != null)
+                            {
+                                <div class="card">
+                                <img src="@image.Url()" class="img-thumbnail rounded float-start" alt="@image.Name" style="height: 200px; width: 300px;"/>
+                                </div>
                             }
                         }
-                    </div>
+                    }
+                }
+            </div>
         </div>
     </div>
 </section>
@@ -74,30 +74,24 @@
             <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
         </div>
         <div class="row text-center">
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="my-3">E-Commerce</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-            </div>
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="my-3">Responsive Design</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-            </div>
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="my-3">Web Security</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-            </div>
+            @{
+                var serviceGrid = Model.Value<BlockGridModel>("serviceGrid");
+            }
+
+            @{
+                foreach (var block in serviceGrid)
+                {
+                    var image = block.Content.Value<IPublishedContent>("image");
+                    var title = block.Content.Value<String>("title");
+                    var description = block.Content.Value<String>("description");
+
+                    <div class="col-md-4">
+                        <img src="@image.Url()" class="img-thumbnail" alt="@image.Name" style="height: 50px; width: 50px;" />
+                        <h4 class="my-3">@title</h4>
+                        <p class="text-muted">@description</p>
+                    </div>
+                }
+            }
         </div>
     </div>
 </section>
